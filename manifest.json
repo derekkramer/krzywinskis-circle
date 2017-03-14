@@ -1,0 +1,16 @@
+{
+    "name": "Krzywinski's Circle",
+    "version": "0.0.0.1",
+    "description": "Kyzywinski's depiction of pi",
+    "icons": {
+        "128": "icon-sized.png"
+    },
+    "chrome_url_overrides" : {
+        "newtab": "index.html"
+    },
+    "browser_action": {
+        "default_title": "Krzywinski's Circle",
+        "default_icon": "icon-sized.png",
+        "default_popup": "popup.html"
+    }
+}
