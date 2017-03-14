@@ -1,91 +1,98 @@
-var gieStainColor = {
-    gpos100: 'rgb(0,0,0)',
-    gpos: 'rgb(0,0,0)',
-    gpos75: 'rgb(130,130,130)',
-    gpos66: 'rgb(160,160,160)',
-    gpos50: 'rgb(200,200,200)',
-    gpos33: 'rgb(210,210,210)',
-    gpos25: 'rgb(200,200,200)',
-    gvar: 'rgb(220,220,220)',
-    gneg: 'rgb(255,255,255)',
-    acen: 'rgb(217,47,39)',
-    stalk: 'rgb(100,127,164)',
-    select: 'rgb(135,177,255)'
-}
+$.get('https://helloacm.com/api/pi/?n=1000000')
+.then(function(pi){
+    pi = pi.slice(1)
 
-var drawCircos = function(error, GRCh37, cytobands, data) {
     var circos = new Circos({
         container: '#chart',
         width: 1000,
-        height: 1050
+        height: 900
     })
 
-    cytobands = cytobands.map(function(d) {
-        return {
-            block_id: d.chrom,
-            start: parseInt(d.chromStart),
-            end: parseInt(d.chromEnd),
-            gieStain: d.gieStain,
-            name: d.name
-        }
-    })
+    var colors = [
+        '#1B4357',
+        '#4AA2E1',
+        '#48741E',
+        '#66D45E',
+        '#650402',
+        '#E71B1C',
+        '#905102',
+        '#FF7E00',
+        '#40264F',
+        '#9364C2'
+    ]
 
-    data = data.map(function(d) {
-        return {
-            source: {
-                id: d.source_id,
-                start: parseInt(d.source_breakpoint) - 2000000,
-                end: parseInt(d.source_breakpoint) + 2000000
-            },
-            target: {
-                id: d.target_id,
-                start: parseInt(d.target_breakpoint) - 2000000,
-                end: parseInt(d.target_breakpoint) + 2000000
-            }
-        }
-    })
+    var layout = [
+        {'id':'0','label':'0','color':colors[0],'len':1000},
+        {'id':'1','label':'1','color':colors[1],'len':1000},
+        {'id':'2','label':'2','color':colors[2],'len':1000},
+        {'id':'3','label':'3','color':colors[3],'len':1000},
+        {'id':'4','label':'4','color':colors[4],'len':1000},
+        {'id':'5','label':'5','color':colors[5],'len':1000},
+        {'id':'6','label':'6','color':colors[6],'len':1000},
+        {'id':'7','label':'7','color':colors[7],'len':1000},
+        {'id':'8','label':'8','color':colors[8],'len':1000},
+        {'id':'9','label':'9','color':colors[9],'len':1000}
+    ]
+
+    var data
+    var $slider = $('#speed')
+    var speed = Math.abs($slider.val() - 1000)
 
     circos
         .layout(
-            GRCh37, {
+            layout, {
                 innerRadius: 400,
-                outerRadius: 440,
+                outerRadius: 410,
                 labels: {
-                    radialOffset: 70
+                    radialOffset: 40,
+                    size: '16px',
+                    color: '#FFFFFF'
                 },
                 ticks: {
-                    display: true,
-                    labelDenominator: 1000000
-                }
-            }
-        )
-        .highlight('cytobands', cytobands, {
-            innerRadius: 400,
-            outerRadius: 440,
-            opacity: 0.3,
-            color: function(d) {
-                return gieStainColor[d.gieStain]
-            },
-            tooltipContent: function(d) {
-                return d.name
-            }
-        })
-        .chords(
-            'l1',
-            data, {
-                logScale: false,
-                opacity: 0.7,
-                color: '#ff5722',
-                tooltipContent: function(d) {
-                    return d.source.id + ' ➤ ' + d.target.id + ': ' + d.value
+                    display: false
                 }
             }
         )
         .render()
-}
 
-d3.queue()
-    .defer(d3.json, 'data/GRCh37.json')
-    .defer(d3.csv, 'data/cytobands.csv')
-    .defer(d3.csv, 'data/fusion-genes.csv')
-    .await(drawCircos)
+    var i = 0
+
+    function drawCircos(){
+        var pos = parseInt(i)
+        var num = parseInt(pi[pos])
+        var id = 'c' + i.toString()
+        var rand = Math.floor(Math.random() * 990)
+        speed = Math.abs($slider.val() - 1000)
+
+        data = [{
+            source: {
+                id: pi[pos],
+                start: rand,
+                end: rand + 10
+            },
+            target: {
+                id: pi[pos+1],
+                start: rand,
+                end: rand + 10
+            }
+        }]
+
+        circos.chords(
+            id,
+            data, {
+                logScale: false,
+                opacity: 1,
+                color: colors[num]
+            }
+        )
+        .render()
+
+        i++
+
+        if(i < pi.length-1){
+            setTimeout(drawCircos, speed)
+        }
+    }
+
+    setTimeout(drawCircos, speed)
+})

@@ -1,0 +1,17 @@
+html, body {
+    background-color: black;
+}
+
+div#chart {
+    width: 1000px;
+    height: 900px;
+    margin: auto;
+    margin-top: -5%;
+    transform: scale(.8)
+}
+
+div.slider {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
