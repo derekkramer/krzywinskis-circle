@@ -1,5 +1,5 @@
 $.get('https://helloacm.com/api/pi/?n=1000000')
-.then(function(pi){
+.then(function(pi) {
     pi = pi.slice(1)
 
     var circos = new Circos({
@@ -21,22 +21,69 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
         '#9364C2'
     ]
 
-    var layout = [
-        {'id':'0','label':'0','color':colors[0],'len':1000},
-        {'id':'1','label':'1','color':colors[1],'len':1000},
-        {'id':'2','label':'2','color':colors[2],'len':1000},
-        {'id':'3','label':'3','color':colors[3],'len':1000},
-        {'id':'4','label':'4','color':colors[4],'len':1000},
-        {'id':'5','label':'5','color':colors[5],'len':1000},
-        {'id':'6','label':'6','color':colors[6],'len':1000},
-        {'id':'7','label':'7','color':colors[7],'len':1000},
-        {'id':'8','label':'8','color':colors[8],'len':1000},
-        {'id':'9','label':'9','color':colors[9],'len':1000}
-    ]
+    var layout = [{
+        'id': '0',
+        'label': '0',
+        'color': colors[0],
+        'len': 1000
+    },
+    {
+        'id': '1',
+        'label': '1',
+        'color': colors[1],
+        'len': 1000
+    },
+    {
+        'id': '2',
+        'label': '2',
+        'color': colors[2],
+        'len': 1000
+    },
+    {
+        'id': '3',
+        'label': '3',
+        'color': colors[3],
+        'len': 1000
+    },
+    {
+        'id': '4',
+        'label': '4',
+        'color': colors[4],
+        'len': 1000
+    },
+    {
+        'id': '5',
+        'label': '5',
+        'color': colors[5],
+        'len': 1000
+    },
+    {
+        'id': '6',
+        'label': '6',
+        'color': colors[6],
+        'len': 1000
+    },
+    {
+        'id': '7',
+        'label': '7',
+        'color': colors[7],
+        'len': 1000
+    },
+    {
+        'id': '8',
+        'label': '8',
+        'color': colors[8],
+        'len': 1000
+    },
+    {
+        'id': '9',
+        'label': '9',
+        'color': colors[9],
+        'len': 1000
+    }]
 
     var data
-    var $slider = $('#speed')
-    var speed = Math.abs($slider.val() - 1000)
+    var speed = 990
 
     circos
         .layout(
@@ -57,12 +104,15 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
 
     var i = 0
 
-    function drawCircos(){
+    function drawCircos() {
         var pos = parseInt(i)
         var num = parseInt(pi[pos])
         var id = 'c' + i.toString()
         var rand = Math.floor(Math.random() * 990)
-        speed = Math.abs($slider.val() - 1000)
+
+        chrome.runtime.onMessage.addListener(function(request){
+            speed = Math.abs(request.message - 1000)
+        })
 
         data = [{
             source: {
@@ -71,25 +121,25 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
                 end: rand + 10
             },
             target: {
-                id: pi[pos+1],
+                id: pi[pos + 1],
                 start: rand,
                 end: rand + 10
             }
         }]
 
         circos.chords(
-            id,
-            data, {
-                logScale: false,
-                opacity: 1,
-                color: colors[num]
-            }
-        )
-        .render()
+                id,
+                data, {
+                    logScale: false,
+                    opacity: 1,
+                    color: colors[num]
+                }
+            )
+            .render()
 
         i++
 
-        if(i < pi.length-1){
+        if (i < pi.length - 1) {
             setTimeout(drawCircos, speed)
         }
     }
