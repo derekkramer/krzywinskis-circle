@@ -45,8 +45,8 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
                 outerRadius: 410,
                 labels: {
                     radialOffset: 40,
-                    size: '16px',
-                    color: '#FFFFFF'
+                    size: '20px',
+                    color: '#606060'
                 },
                 ticks: {
                     display: false
