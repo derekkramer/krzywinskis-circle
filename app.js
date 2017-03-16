@@ -111,7 +111,7 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
         var rand = Math.floor(Math.random() * 990)
 
         chrome.runtime.onMessage.addListener(function(request){
-            speed = Math.abs(request.message - 1000)
+            speed = Math.abs(request.speed - 1000)
         })
 
         data = [{
@@ -134,8 +134,8 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
                     opacity: 1,
                     color: colors[num]
                 }
-            )
-            .render()
+        )
+        .render()
 
         i++
 
