@@ -81,10 +81,19 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
         'color': colors[9],
         'len': 1000
     }]
+	
+	var data
 
-    var data
-    var speed = 990
+	var speed
 
+	if(localStorage.getItem('speed'))
+    	speed = Math.abs(localStorage.getItem('speed') - 1000)
+	else
+		speed = 990
+	
+	//console.log(localStorage.getItem('speed'))
+	//var speed = 990
+	
     circos
         .layout(
             layout, {

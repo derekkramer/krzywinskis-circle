@@ -14,5 +14,8 @@
         "default_title": "Krzywinski's Circle",
         "default_icon": "icon.png",
         "default_popup": "popup.html"
-    }
+    },
+	"permissions": [
+		"storage"
+	]
 }
