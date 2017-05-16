@@ -4,9 +4,9 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
 
     var circos = new Circos({
         container: '#chart',
-        width: 1000,
-        height: 900
-    })
+        width: 900,
+        height: 900	
+	})
 
     var colors = [
         '#1B4357',
@@ -89,10 +89,7 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
 	if(localStorage.getItem('speed'))
     	speed = Math.abs(localStorage.getItem('speed') - 1000)
 	else
-		speed = 990
-	
-	//console.log(localStorage.getItem('speed'))
-	//var speed = 990
+		speed = 990	
 	
     circos
         .layout(
