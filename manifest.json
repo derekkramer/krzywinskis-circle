@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "piDream",
-    "version": "0.0.0.1",
+    "version": "0.0.0.2",
     "description": "Kyzywinski's depiction of pi",
     "icons": {
         "128": "icon.png"
