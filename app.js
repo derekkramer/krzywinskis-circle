@@ -1,14 +1,14 @@
 $.get('https://helloacm.com/api/pi/?n=1000000')
-.then(function(pi) {
+.then((pi) => {
     pi = pi.slice(1)
 
-    var circos = new Circos({
+    let circos = new Circos({
         container: '#chart',
         width: 900,
         height: 900	
 	})
 
-    var colors = [
+    let colors = [
         '#1B4357',
         '#4AA2E1',
         '#48741E',
@@ -21,7 +21,7 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
         '#9364C2'
     ]
 
-    var layout = [{
+    let layout = [{
         'id': '0',
         'label': '0',
         'color': colors[0],
@@ -82,9 +82,9 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
         'len': 1000
     }]
 	
-	var data
+	let data
 
-	var speed
+	let speed
 
 	if(localStorage.getItem('speed'))
     	speed = Math.abs(localStorage.getItem('speed') - 1000)
@@ -92,31 +92,31 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
 		speed = 990	
 	
     circos
-        .layout(
-            layout, {
-                innerRadius: 400,
-                outerRadius: 410,
-                labels: {
-                    radialOffset: 40,
-                    size: '20px',
-                    color: '#606060'
-                },
-                ticks: {
-                    display: false
-                }
+    .layout(
+        layout, {
+            innerRadius: 400,
+            outerRadius: 410,
+            labels: {
+    	        radialOffset: 40,
+                size: '20px',
+                color: '#606060'
+            },
+            ticks: {
+                display: false
             }
-        )
-        .render()
+        }
+    )
+    .render()
 
-    var i = 0
+    let i = 0
 
     function drawCircos() {
-        var pos = parseInt(i)
-        var num = parseInt(pi[pos])
-        var id = 'c' + i.toString()
-        var rand = Math.floor(Math.random() * 990)
+        let pos = parseInt(i)
+        let num = parseInt(pi[pos])
+        let id = 'c' + i.toString()
+        let rand = Math.floor(Math.random() * 990)
 
-        chrome.runtime.onMessage.addListener(function(request){
+        chrome.runtime.onMessage.addListener((request) => {
             speed = Math.abs(request.speed - 1000)
         })
 
@@ -134,12 +134,12 @@ $.get('https://helloacm.com/api/pi/?n=1000000')
         }]
 
         circos.chords(
-                id,
-                data, {
-                    logScale: false,
-                    opacity: 1,
-                    color: colors[num]
-                }
+            id,
+            data, {
+                logScale: false,
+                opacity: 1,
+                color: colors[num]
+            }
         )
         .render()
 
